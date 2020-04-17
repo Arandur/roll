@@ -20,10 +20,10 @@ fn parse_roll(text: &str) {
     }
 
     if let Some(caps) = RE.captures(text) {
-        let n_dice: usize = caps.name("n_dice").unwrap().as_str().parse().unwrap();
-        let die: usize = caps.name("die").unwrap().as_str().parse().unwrap();
+        let n_dice: isize = caps.name("n_dice").unwrap().as_str().parse().unwrap();
+        let die: isize = caps.name("die").unwrap().as_str().parse().unwrap();
         let op = caps.name("op").map_or("+", |m| m.as_str());
-        let addend: usize = caps.name("addend").map_or("0", |m| m.as_str()).parse().unwrap();
+        let addend: isize = caps.name("addend").map_or("0", |m| m.as_str()).parse().unwrap();
 
         let dist = Uniform::from(1..=die);
         let mut rng = thread_rng();
@@ -35,7 +35,7 @@ fn parse_roll(text: &str) {
 
         rolls.sort();
 
-        let mut sum: usize = rolls.iter().sum();
+        let mut sum: isize = rolls.iter().sum();
 
         match op {
             "+" => sum += addend,
